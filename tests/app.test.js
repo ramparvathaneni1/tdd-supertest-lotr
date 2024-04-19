@@ -7,7 +7,7 @@ describe('Test the root path', () => {
 		expect(response.text).toBe('Hello World!');
 		expect(response.statusCode).toBe(200);
 	});
-});
+}); 
 
 describe('Test the /people path', ()=>{
 	test('It should respond with the entire fellowship', async () => {
@@ -85,6 +85,24 @@ describe('Test bad create request', ()=>{
 		const response = await request(app).post('/people').send({name:'Faramir', ancestry:'Human'});
 		expect(response.text).toBe(JSON.stringify({success:false}));
 		expect(response.statusCode).toBe(400);
+	});
+})
+
+describe('Test delete Gandalf', ()=>{
+	test('It should respond with {success:true}', async () => {
+		const response = await request(app).delete('/people?name=Gandalf');
+		expect(response.text).toBe(JSON.stringify({success:true}));
+		expect(response.statusCode).toBe(200);
+	});
+})
+
+describe('Test Update Request', () => {
+	test('It should response with {success:true}', async() => {
+		const response = await request(app).put('/people?name=Frodo').send({
+			age: 51
+		});
+		expect(response.text).toBe(JSON.stringify({success:true}));
+		expect(response.statusCode).toBe(200);
 	});
 })
 
